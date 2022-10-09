@@ -25,11 +25,11 @@ export const useCalculate = () => {
 	} = calculator;
 
 	const onConcatNumber = number => {
-		/* if (canRestartCalculator)
+		if (canRestartCalculator)
 			return setCalculator(() => ({
 				...calculatorInitialState,
 				result: number,
-			})); */
+			}));
 
 		if (number === ',') {
 			if (result.includes('.')) return;
@@ -127,9 +127,11 @@ export const useCalculate = () => {
 				...currentCalc,
 				previousNumber: Number(previousNumber) * Number(lastNumberPicked),
 				result: (Number(previousNumber) * Number(lastNumberPicked)).toString(),
+				operation: `${Number(previousNumber) * Number(lastNumberPicked)} ${action}`,
 				calculatorAction: action,
 				canRestartResultText: true,
 			}));
+			return;
 		}
 
 		if (calculatorAction === actionTypes.divide && canRestartCalculator === false) {
@@ -137,9 +139,11 @@ export const useCalculate = () => {
 				...currentCalc,
 				previousNumber: Number(previousNumber) / Number(lastNumberPicked),
 				result: (Number(previousNumber) / Number(lastNumberPicked)).toString(),
+				operation: `${Number(previousNumber) / Number(lastNumberPicked)} ${action}`,
 				calculatorAction: action,
 				canRestartResultText: true,
 			}));
+			return;
 		}
 
 		setCalculator(currentCalc => ({
