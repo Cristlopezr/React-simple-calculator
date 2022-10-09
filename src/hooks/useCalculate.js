@@ -137,6 +137,28 @@ export const useCalculate = () => {
 			}));
 			return;
 		}
+
+		if (action === actionTypes.divide) {
+			setCalculator(currentCalc => ({
+				...currentCalc,
+				result: (previousNumber / lastNumberPicked).toString(),
+				operation: `${previousNumber} ${action} ${lastNumberPicked} ${equal} `,
+				previousNumber: Number(previousNumber) / Number(lastNumberPicked),
+				canRestartCalculator: true,
+			}));
+			return;
+		}
+
+		/* if (action === actionTypes.percentage) {
+			setCalculator(currentCalc => ({
+				...currentCalc,
+				result: (previousNumber / lastNumberPicked).toString(),
+				operation: `${previousNumber} ${action} ${lastNumberPicked} ${equal} `,
+				previousNumber: Number(previousNumber) / Number(lastNumberPicked),
+				canRestartCalculator: true,
+			}));
+			return;
+		} */
 	};
 
 	return {
