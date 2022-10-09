@@ -113,6 +113,29 @@ export const useCalculate = () => {
 				previousNumber: Number(previousNumber) + Number(lastNumberPicked),
 				canRestartCalculator: true,
 			}));
+			return;
+		}
+
+		if (action === actionTypes.subtract) {
+			setCalculator(currentCalc => ({
+				...currentCalc,
+				result: (previousNumber - lastNumberPicked).toString(),
+				operation: `${previousNumber} ${action} ${lastNumberPicked} ${equal} `,
+				previousNumber: Number(previousNumber) - Number(lastNumberPicked),
+				canRestartCalculator: true,
+			}));
+			return;
+		}
+
+		if (action === actionTypes.multiply) {
+			setCalculator(currentCalc => ({
+				...currentCalc,
+				result: (previousNumber * lastNumberPicked).toString(),
+				operation: `${previousNumber} ${action} ${lastNumberPicked} ${equal} `,
+				previousNumber: Number(previousNumber) * Number(lastNumberPicked),
+				canRestartCalculator: true,
+			}));
+			return;
 		}
 	};
 
