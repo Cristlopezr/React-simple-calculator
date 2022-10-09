@@ -20,7 +20,7 @@ export const useCalculate = () => {
 
 			return setCalculation(currentCalc => ({
 				...currentCalc,
-				result: currentCalc.result + number,
+				result: result + number,
 				lastNumberPicked: Number(initialState.result),
 			}));
 		}
@@ -41,8 +41,8 @@ export const useCalculate = () => {
 			  }))
 			: setCalculation(currentCalc => ({
 					...currentCalc,
-					result: currentCalc.result + number,
-					lastNumberPicked: Number(currentCalc.result + number),
+					result: result + number,
+					lastNumberPicked: Number(result + number),
 			  }));
 	};
 
@@ -68,8 +68,8 @@ export const useCalculate = () => {
 
 		setCalculation(currentCalc => ({
 			...currentCalc,
-			previousNumber: currentCalc.lastNumberPicked,
-			operation: `${currentCalc.result} ${action}`,
+			previousNumber: Number(result),
+			operation: `${result} ${action}`,
 			action: action,
 			restart: true,
 		}));
@@ -79,9 +79,9 @@ export const useCalculate = () => {
 		if (action === '+') {
 			setCalculation(currentCalc => ({
 				...currentCalc,
-				result: Number(currentCalc.previousNumber) + Number(currentCalc.lastNumberPicked),
-				operation: `${currentCalc.previousNumber} ${currentCalc.action} ${currentCalc.lastNumberPicked} ${equal} `,
-				previousNumber: Number(currentCalc.previousNumber) + Number(currentCalc.lastNumberPicked),
+				result: Number(previousNumber) + Number(lastNumberPicked),
+				operation: `${previousNumber} ${action} ${lastNumberPicked} ${equal} `,
+				previousNumber: Number(previousNumber) + Number(lastNumberPicked),
 			}));
 		}
 	};
