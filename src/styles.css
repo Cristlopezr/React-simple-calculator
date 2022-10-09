@@ -33,6 +33,7 @@ body {
 	align-items: center;
 	height: 100vh;
 	margin: 0;
+	background-color: hsl(25, 100%, 74%);
 }
 
 .calculator {
