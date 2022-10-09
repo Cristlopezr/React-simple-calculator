@@ -4,7 +4,7 @@ import { actionTypes } from '../helpers';
 const calculatorInitialState = {
 	result: '0',
 	operation: '',
-	action: '',
+	calculatorAction: '',
 	lastNumberPicked: 0,
 	previousNumber: 0,
 	canRestartResultText: false,
@@ -17,7 +17,7 @@ export const useCalculate = () => {
 	const {
 		result,
 		operation,
-		action,
+		calculatorAction,
 		lastNumberPicked,
 		previousNumber,
 		canRestartResultText,
@@ -25,11 +25,11 @@ export const useCalculate = () => {
 	} = calculator;
 
 	const onConcatNumber = number => {
-		if (canRestartCalculator)
+		/* if (canRestartCalculator)
 			return setCalculator(() => ({
 				...calculatorInitialState,
 				result: number,
-			}));
+			})); */
 
 		if (number === ',') {
 			if (result.includes('.')) return;
@@ -64,6 +64,10 @@ export const useCalculate = () => {
 	};
 
 	const onClickAction = action => {
+		if (action === actionTypes.percentage) {
+			return;
+		}
+
 		if (action === actionTypes.restart) {
 			setCalculator(calculatorInitialState);
 			return;
@@ -94,77 +98,109 @@ export const useCalculate = () => {
 			return;
 		}
 
+		if (calculatorAction === actionTypes.add && canRestartCalculator === false) {
+			setCalculator(currentCalc => ({
+				...currentCalc,
+				previousNumber: Number(previousNumber) + Number(lastNumberPicked),
+				result: (Number(previousNumber) + Number(lastNumberPicked)).toString(),
+				operation: `${Number(previousNumber) + Number(lastNumberPicked)} ${action}`,
+				calculatorAction: action,
+				canRestartResultText: true,
+			}));
+			return;
+		}
+
+		if (calculatorAction === actionTypes.subtract && canRestartCalculator === false) {
+			setCalculator(currentCalc => ({
+				...currentCalc,
+				previousNumber: Number(previousNumber) - Number(lastNumberPicked),
+				result: (Number(previousNumber) - Number(lastNumberPicked)).toString(),
+				operation: `${Number(previousNumber) - Number(lastNumberPicked)} ${action}`,
+				calculatorAction: action,
+				canRestartResultText: true,
+			}));
+			return;
+		}
+
+		if (calculatorAction === actionTypes.multiply && canRestartCalculator === false) {
+			setCalculator(currentCalc => ({
+				...currentCalc,
+				previousNumber: Number(previousNumber) * Number(lastNumberPicked),
+				result: (Number(previousNumber) * Number(lastNumberPicked)).toString(),
+				calculatorAction: action,
+				canRestartResultText: true,
+			}));
+		}
+
+		if (calculatorAction === actionTypes.divide && canRestartCalculator === false) {
+			setCalculator(currentCalc => ({
+				...currentCalc,
+				previousNumber: Number(previousNumber) / Number(lastNumberPicked),
+				result: (Number(previousNumber) / Number(lastNumberPicked)).toString(),
+				calculatorAction: action,
+				canRestartResultText: true,
+			}));
+		}
+
 		setCalculator(currentCalc => ({
 			...currentCalc,
-			previousNumber: Number(result),
 			operation: `${result} ${action}`,
-			action: action,
+			previousNumber: Number(result), //0
+			calculatorAction: action,
 			canRestartResultText: true,
 			canRestartCalculator: false,
 		}));
 	};
 
 	const onCompute = equal => {
-		if (action === actionTypes.add) {
+		if (calculatorAction === actionTypes.add) {
 			setCalculator(currentCalc => ({
 				...currentCalc,
 				result: (previousNumber + lastNumberPicked).toString(),
-				operation: `${previousNumber} ${action} ${lastNumberPicked} ${equal} `,
+				operation: `${previousNumber} ${calculatorAction} ${lastNumberPicked} ${equal} `,
 				previousNumber: Number(previousNumber) + Number(lastNumberPicked),
 				canRestartCalculator: true,
 			}));
 			return;
 		}
 
-		if (action === actionTypes.subtract) {
+		if (calculatorAction === actionTypes.subtract) {
 			setCalculator(currentCalc => ({
 				...currentCalc,
 				result: (previousNumber - lastNumberPicked).toString(),
-				operation: `${previousNumber} ${action} ${lastNumberPicked} ${equal} `,
+				operation: `${previousNumber} ${calculatorAction} ${lastNumberPicked} ${equal} `,
 				previousNumber: Number(previousNumber) - Number(lastNumberPicked),
 				canRestartCalculator: true,
 			}));
 			return;
 		}
 
-		if (action === actionTypes.multiply) {
+		if (calculatorAction === actionTypes.multiply) {
 			setCalculator(currentCalc => ({
 				...currentCalc,
 				result: (previousNumber * lastNumberPicked).toString(),
-				operation: `${previousNumber} ${action} ${lastNumberPicked} ${equal} `,
+				operation: `${previousNumber} ${calculatorAction} ${lastNumberPicked} ${equal} `,
 				previousNumber: Number(previousNumber) * Number(lastNumberPicked),
 				canRestartCalculator: true,
 			}));
 			return;
 		}
 
-		if (action === actionTypes.divide) {
+		if (calculatorAction === actionTypes.divide) {
 			setCalculator(currentCalc => ({
 				...currentCalc,
 				result: (previousNumber / lastNumberPicked).toString(),
-				operation: `${previousNumber} ${action} ${lastNumberPicked} ${equal} `,
+				operation: `${previousNumber} ${calculatorAction} ${lastNumberPicked} ${equal} `,
 				previousNumber: Number(previousNumber) / Number(lastNumberPicked),
 				canRestartCalculator: true,
 			}));
 			return;
 		}
-
-		/* if (action === actionTypes.percentage) {
-			setCalculator(currentCalc => ({
-				...currentCalc,
-				result: (previousNumber / lastNumberPicked).toString(),
-				operation: `${previousNumber} ${action} ${lastNumberPicked} ${equal} `,
-				previousNumber: Number(previousNumber) / Number(lastNumberPicked),
-				canRestartCalculator: true,
-			}));
-			return;
-		} */
 	};
 
 	return {
 		result,
 		operation,
-		action,
 		onConcatNumber,
 		onClickAction,
 		onCompute,
