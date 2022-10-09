@@ -16,11 +16,11 @@ export const useCalculate = () => {
 
 	const onAddNumber = number => {
 		if (number === ',') {
-			if (result.includes(',')) return;
+			if (result.includes('.')) return;
 
 			return setCalculation(currentCalc => ({
 				...currentCalc,
-				result: result + number,
+				result: result + '.',
 				lastNumberPicked: Number(initialState.result),
 			}));
 		}
