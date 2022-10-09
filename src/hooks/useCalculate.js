@@ -6,28 +6,38 @@ const initialState = {
 	action: '',
 	restart: false,
 	lastNumberPicked: 0,
-	previousNumberPicked: 0,
+	previousNumber: 0,
 };
 
 export const useCalculate = () => {
 	const [calculation, setCalculation] = useState(initialState);
 
-	const { result, operation, action, lastNumberPicked, previousNumberPicked } = calculation;
+	const { result, operation, action, lastNumberPicked, previousNumber, restart } = calculation;
 
 	const onAddNumber = number => {
-		if (calculation.result === '0')
+		if (number === ',') {
+			if (result.includes(',')) return;
+
+			return setCalculation(currentCalc => ({
+				...currentCalc,
+				result: currentCalc.result + number,
+				lastNumberPicked: Number(initialState.result),
+			}));
+		}
+
+		if (result === '0')
 			return setCalculation(currentCalc => ({
 				...currentCalc,
 				result: number,
-				lastNumberPicked: number,
+				lastNumberPicked: Number(number),
 			}));
 
-		calculation.restart
+		restart
 			? setCalculation(currentCalc => ({
 					...currentCalc,
 					result: number,
 					restart: false,
-					lastNumberPicked: number,
+					lastNumberPicked: Number(number),
 			  }))
 			: setCalculation(currentCalc => ({
 					...currentCalc,
@@ -37,6 +47,46 @@ export const useCalculate = () => {
 	};
 
 	const onClickAction = action => {
+		if (action === 'AC') {
+			setCalculation(initialState);
+			return;
+		}
+
+		if (action === 'X') {
+			if (result.length === 1)
+				return setCalculation(currentCalc => ({
+					...currentCalc,
+					result: initialState.result,
+				}));
+
+			setCalculation(currentCalc => ({
+				...currentCalc,
+				result: result.slice(0, -1),
+			}));
+			return;
+		}
+
+		setCalculation(currentCalc => ({
+			...currentCalc,
+			previousNumber: currentCalc.lastNumberPicked,
+			operation: `${currentCalc.result} ${action}`,
+			action: action,
+			restart: true,
+		}));
+	};
+
+	const onEqual = equal => {
+		if (action === '+') {
+			setCalculation(currentCalc => ({
+				...currentCalc,
+				result: Number(currentCalc.previousNumber) + Number(currentCalc.lastNumberPicked),
+				operation: `${currentCalc.previousNumber} ${currentCalc.action} ${currentCalc.lastNumberPicked} ${equal} `,
+				previousNumber: Number(currentCalc.previousNumber) + Number(currentCalc.lastNumberPicked),
+			}));
+		}
+	};
+
+	/* const onClickAction = action => {
 		if (action === 'AC') {
 			setCalculation(initialState);
 			return;
@@ -77,7 +127,7 @@ export const useCalculate = () => {
 			lastNumberPicked: Number(currentCalc.result),
 		}));
 	};
-	console.log(lastNumberPicked);
+	console.log(lastNumberPicked); */
 
 	return {
 		result,
@@ -85,5 +135,6 @@ export const useCalculate = () => {
 		action,
 		onAddNumber,
 		onClickAction,
+		onEqual,
 	};
 };

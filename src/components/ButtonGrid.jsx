@@ -9,7 +9,7 @@ const classNames = {
 
 const equal = '=';
 
-export const ButtonGrid = ({ onAddNumber, onClickAction }) => {
+export const ButtonGrid = ({ onAddNumber, onClickAction, onEqual }) => {
 	return (
 		<div className='calculator__buttons'>
 			{calculator.map(digit =>
@@ -25,7 +25,7 @@ export const ButtonGrid = ({ onAddNumber, onClickAction }) => {
 						key={digit}
 						digit={digit}
 						classes={`${classNames.equalButton} ${classNames.digitButton}`}
-						handleClick={onClickAction}
+						handleClick={onEqual}
 					/>
 				) : (
 					<Button
