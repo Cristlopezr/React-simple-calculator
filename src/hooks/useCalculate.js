@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { actionTypes } from '../helpers';
+import { actionTypes, add, subtract, multiply, divide } from '../helpers';
 
 const calculatorInitialState = {
 	result: '0',
@@ -64,32 +64,23 @@ export const useCalculate = () => {
 	};
 
 	const onClickAction = action => {
-		if (action === actionTypes.percentage) {
-			return;
-		}
+		if (action === actionTypes.percentage) return;
 
-		if (action === actionTypes.restart) {
-			setCalculator(calculatorInitialState);
-			return;
-		}
+		if (action === actionTypes.restart) return setCalculator(calculatorInitialState);
 
 		if (action === actionTypes.deleteLeft) {
-			if (canRestartCalculator) {
-				setCalculator(() => ({
+			if (canRestartCalculator)
+				return setCalculator(() => ({
 					...calculatorInitialState,
 					result: result,
 					canRestartCalculator: true,
 				}));
-				return;
-			}
 
-			if (result.length === 1) {
-				setCalculator(currentCalc => ({
+			if (result.length === 1)
+				return setCalculator(currentCalc => ({
 					...currentCalc,
 					result: calculatorInitialState.result,
 				}));
-				return;
-			}
 
 			setCalculator(currentCalc => ({
 				...currentCalc,
@@ -99,49 +90,37 @@ export const useCalculate = () => {
 		}
 
 		if (calculatorAction === actionTypes.add && canRestartCalculator === false) {
+			const calculator = add(previousNumber, lastNumberPicked, action);
 			setCalculator(currentCalc => ({
 				...currentCalc,
-				previousNumber: Number(previousNumber) + Number(lastNumberPicked),
-				result: (Number(previousNumber) + Number(lastNumberPicked)).toString(),
-				operation: `${Number(previousNumber) + Number(lastNumberPicked)} ${action}`,
-				calculatorAction: action,
-				canRestartResultText: true,
+				...calculator,
 			}));
 			return;
 		}
 
 		if (calculatorAction === actionTypes.subtract && canRestartCalculator === false) {
+			const calculator = subtract(previousNumber, lastNumberPicked, action);
 			setCalculator(currentCalc => ({
 				...currentCalc,
-				previousNumber: Number(previousNumber) - Number(lastNumberPicked),
-				result: (Number(previousNumber) - Number(lastNumberPicked)).toString(),
-				operation: `${Number(previousNumber) - Number(lastNumberPicked)} ${action}`,
-				calculatorAction: action,
-				canRestartResultText: true,
+				...calculator,
 			}));
 			return;
 		}
-
 		if (calculatorAction === actionTypes.multiply && canRestartCalculator === false) {
+			const calculator = multiply(previousNumber, lastNumberPicked, action);
 			setCalculator(currentCalc => ({
 				...currentCalc,
-				previousNumber: Number(previousNumber) * Number(lastNumberPicked),
-				result: (Number(previousNumber) * Number(lastNumberPicked)).toString(),
-				operation: `${Number(previousNumber) * Number(lastNumberPicked)} ${action}`,
-				calculatorAction: action,
-				canRestartResultText: true,
+				...calculator,
 			}));
 			return;
 		}
 
 		if (calculatorAction === actionTypes.divide && canRestartCalculator === false) {
+			if (lastNumberPicked === 0) return;
+			const calculator = divide(previousNumber, lastNumberPicked, action);
 			setCalculator(currentCalc => ({
 				...currentCalc,
-				previousNumber: Number(previousNumber) / Number(lastNumberPicked),
-				result: (Number(previousNumber) / Number(lastNumberPicked)).toString(),
-				operation: `${Number(previousNumber) / Number(lastNumberPicked)} ${action}`,
-				calculatorAction: action,
-				canRestartResultText: true,
+				...calculator,
 			}));
 			return;
 		}
@@ -149,7 +128,7 @@ export const useCalculate = () => {
 		setCalculator(currentCalc => ({
 			...currentCalc,
 			operation: `${result} ${action}`,
-			previousNumber: Number(result), //0
+			previousNumber: Number(result),
 			calculatorAction: action,
 			canRestartResultText: true,
 			canRestartCalculator: false,
@@ -191,6 +170,7 @@ export const useCalculate = () => {
 		}
 
 		if (calculatorAction === actionTypes.divide) {
+			if (lastNumberPicked === 0) return;
 			setCalculator(currentCalc => ({
 				...currentCalc,
 				result: (previousNumber / lastNumberPicked).toString(),
