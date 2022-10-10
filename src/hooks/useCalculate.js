@@ -89,25 +89,41 @@ export const useCalculate = () => {
 			return;
 		}
 
-		if (calculatorAction === actionTypes.add && canRestartCalculator === false)
+		if (
+			calculatorAction === actionTypes.add &&
+			canRestartCalculator === false &&
+			canRestartResultText === false
+		)
 			return setCalculator(currentCalc => ({
 				...currentCalc,
 				...add(previousNumber, lastNumberPicked, action),
 			}));
 
-		if (calculatorAction === actionTypes.subtract && canRestartCalculator === false)
+		if (
+			calculatorAction === actionTypes.subtract &&
+			canRestartCalculator === false &&
+			canRestartResultText === false
+		)
 			return setCalculator(currentCalc => ({
 				...currentCalc,
 				...subtract(previousNumber, lastNumberPicked, action),
 			}));
 
-		if (calculatorAction === actionTypes.multiply && canRestartCalculator === false)
+		if (
+			calculatorAction === actionTypes.multiply &&
+			canRestartCalculator === false &&
+			canRestartResultText === false
+		)
 			return setCalculator(currentCalc => ({
 				...currentCalc,
 				...multiply(previousNumber, lastNumberPicked, action),
 			}));
 
-		if (calculatorAction === actionTypes.divide && canRestartCalculator === false) {
+		if (
+			calculatorAction === actionTypes.divide &&
+			canRestartCalculator === false &&
+			canRestartResultText === false
+		) {
 			if (lastNumberPicked === 0) return;
 			return setCalculator(currentCalc => ({
 				...currentCalc,
