@@ -1,3 +1,2 @@
-export * from './calculatorButtonText';
-export * from './actionTypes';
+export * from './calculatorButtonTypes';
 export * from './math-operations';

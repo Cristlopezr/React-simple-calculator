@@ -1,5 +1,5 @@
 import { Button } from './Button';
-import { calculator, actionTypes } from '../helpers';
+import { calculator, actionTypes, operationTypes } from '../helpers';
 
 const classNames = {
 	equalButton: 'equal',
@@ -9,23 +9,30 @@ const classNames = {
 
 const equal = '=';
 
-export const ButtonGrid = ({ onConcatNumber, onClickAction, onCompute }) => {
+export const ButtonGrid = ({ onConcatNumber, onEqual, onCompute, onAction }) => {
 	return (
 		<div className='calculator__buttons'>
 			{calculator.map(digit =>
-				Object.values(actionTypes).includes(digit) ? (
+				Object.values(operationTypes).includes(digit) ? (
 					<Button
 						key={digit}
 						digit={digit}
 						classes={`${classNames.actionButton} ${classNames.digitButton}`}
-						handleClick={onClickAction}
+						handleClick={onCompute}
+					/>
+				) : Object.values(actionTypes).includes(digit) ? (
+					<Button
+						key={digit}
+						digit={digit}
+						classes={`${classNames.actionButton} ${classNames.digitButton}`}
+						handleClick={onAction}
 					/>
 				) : digit === equal ? (
 					<Button
 						key={digit}
 						digit={digit}
 						classes={`${classNames.equalButton} ${classNames.digitButton}`}
-						handleClick={onCompute}
+						handleClick={onEqual}
 					/>
 				) : (
 					<Button

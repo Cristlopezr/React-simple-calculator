@@ -1,16 +1,18 @@
 import { ButtonGrid, Screen } from './components';
-import { useCalculate } from './hooks/useCalculate';
+import { useCalculator } from './hooks/useCalculator';
 
 export const Calculator = () => {
-	const { result, operation, onConcatNumber, onClickAction, onCompute } = useCalculate();
+	const { currentText, previousText, onConcatNumber, onEqual, onCompute, onAction } =
+		useCalculator();
 
 	return (
 		<div className='calculator'>
-			<Screen result={result} operation={operation} />
+			<Screen currentText={currentText} previousText={previousText} />
 			<ButtonGrid
 				onConcatNumber={onConcatNumber}
-				onClickAction={onClickAction}
+				onEqual={onEqual}
 				onCompute={onCompute}
+				onAction={onAction}
 			/>
 		</div>
 	);
