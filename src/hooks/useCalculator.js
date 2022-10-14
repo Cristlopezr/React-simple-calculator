@@ -31,8 +31,9 @@ export const useCalculator = () => {
 		if (canRestartResultText)
 			setCalculator(currentCalc => ({
 				...currentCalc,
-				currentText: '',
+				currentText: '0',
 				canRestartResultText: false,
+				lastNumber: 0,
 			}));
 
 		if (number === ',') {
@@ -44,17 +45,28 @@ export const useCalculator = () => {
 			}));
 		}
 
-		currentText === initialState.currentText
+		setCalculator(currentCalc => {
+			if (currentCalc.currentText === initialState.currentText)
+				return { ...currentCalc, currentText: number, lastNumber: Number(number) };
+
+			return {
+				...currentCalc,
+				currentText: currentCalc.currentText + number,
+				lastNumber: Number(currentCalc.currentText + number),
+			};
+		});
+
+		/* currentText === initialState.currentText
 			? setCalculator(currentCalc => ({
 					...currentCalc,
 					currentText: number,
-					lastNumber: Number(currentCalc.currentText + number),
+					lastNumber: Number(number),
 			  }))
 			: setCalculator(currentCalc => ({
 					...currentCalc,
 					currentText: currentCalc.currentText + number,
 					lastNumber: Number(currentCalc.currentText + number),
-			  }));
+			  })); */
 	};
 
 	const onAction = action => {
