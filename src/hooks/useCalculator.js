@@ -9,6 +9,7 @@ const initialState = {
 	previousNumber: '',
 	canRestartResultText: false,
 	canRestartCalculator: false,
+	disableButtons: false,
 };
 
 export const useCalculator = () => {
@@ -22,10 +23,11 @@ export const useCalculator = () => {
 		previousNumber,
 		canRestartResultText,
 		canRestartCalculator,
+		disableButtons,
 	} = calculator;
 
 	const onConcatNumber = number => {
-		if (canRestartCalculator) setCalculator(() => ({ ...initialState }));
+		if (canRestartCalculator) setCalculator(initialState);
 
 		if (canRestartResultText)
 			setCalculator(currentCalc => ({
@@ -54,18 +56,6 @@ export const useCalculator = () => {
 				lastNumber: Number(currentCalc.currentText + number),
 			};
 		});
-
-		/* currentText === initialState.currentText
-			? setCalculator(currentCalc => ({
-					...currentCalc,
-					currentText: number,
-					lastNumber: Number(number),
-			  }))
-			: setCalculator(currentCalc => ({
-					...currentCalc,
-					currentText: currentCalc.currentText + number,
-					lastNumber: Number(currentCalc.currentText + number),
-			  })); */
 	};
 
 	const onAction = action => {
@@ -108,7 +98,8 @@ export const useCalculator = () => {
 		if (operation === operationTypes.divide)
 			setCalculator(currentCalc => ({
 				...currentCalc,
-				currentText: divide(previousNumber, lastNumber),
+				currentText: divide(previousNumber, lastNumber).currentText,
+				disableButtons: divide(previousNumber, lastNumber).disableButtons,
 			}));
 	};
 
@@ -143,6 +134,7 @@ export const useCalculator = () => {
 	return {
 		currentText,
 		previousText,
+		disableButtons,
 		onConcatNumber,
 		onEqual,
 		onCompute,

@@ -9,8 +9,14 @@ export const multiply = (previousNumber, lastNumber) =>
 
 export const divide = (previousNumber, lastNumber) => {
 	if (lastNumber === 0) {
-		return 'No se puede dividir por cero';
+		return {
+			disableButtons: true,
+			currentText: 'No se puede dividir por cero',
+		};
 	}
 
-	return (Number(previousNumber) / Number(lastNumber)).toString();
+	return {
+		disableButtons: false,
+		currentText: (Number(previousNumber) / Number(lastNumber)).toString(),
+	};
 };

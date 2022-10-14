@@ -1,7 +1,23 @@
-export const Button = ({ digit, classes, handleClick }) => {
+export const Button = ({ digit, classes, handleClick, disableButton }) => {
 	return (
-		<button onClick={() => handleClick(digit)} className={`${classes}`}>
-			{digit}
-		</button>
+		<>
+			{disableButton ? (
+				<button
+					onClick={() => handleClick(digit)}
+					className={`${classes} disableButton`}
+					disabled={disableButton}
+				>
+					{digit}
+				</button>
+			) : (
+				<button
+					onClick={() => handleClick(digit)}
+					className={`${classes}`}
+					disabled={disableButton}
+				>
+					{digit}
+				</button>
+			)}
+		</>
 	);
 };

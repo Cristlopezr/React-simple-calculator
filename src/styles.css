@@ -112,3 +112,7 @@ body {
 .equal:focus-visible {
 	outline: var(--outline-equal-btn) 2px solid;
 }
+
+.disableButton {
+	opacity: 0.45;
+}
