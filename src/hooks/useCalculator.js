@@ -95,12 +95,18 @@ export const useCalculator = () => {
 				currentText: multiply(previousNumber, lastNumber),
 			}));
 
-		if (operation === operationTypes.divide)
+		if (operation === operationTypes.divide) {
+			if (lastNumber === 0)
+				return setCalculator(currentCalc => ({
+					...currentCalc,
+					disableButtons: true,
+					currentText: 'No se puede dividir entre cero',
+				}));
 			setCalculator(currentCalc => ({
 				...currentCalc,
-				currentText: divide(previousNumber, lastNumber).currentText,
-				disableButtons: divide(previousNumber, lastNumber).disableButtons,
+				currentText: divide(previousNumber, lastNumber),
 			}));
+		}
 	};
 
 	const onCompute = op => {
@@ -108,14 +114,23 @@ export const useCalculator = () => {
 			compute(operation);
 		}
 
-		setCalculator(currentCalc => ({
-			...currentCalc,
-			previousText: `${currentCalc.currentText} ${op}`,
-			previousNumber: Number(currentCalc.currentText),
-			canRestartResultText: true,
-			canRestartCalculator: false,
-			operation: op,
-		}));
+		setCalculator(currentCalc => {
+			if (currentCalc.disableButtons)
+				return {
+					...currentCalc,
+					previousText: `${currentCalc.previousNumber} ${operation} ${lastNumber} =`,
+					canRestartCalculator: true,
+				};
+
+			return {
+				...currentCalc,
+				previousText: `${currentCalc.currentText} ${op}`,
+				previousNumber: Number(currentCalc.currentText),
+				canRestartResultText: true,
+				canRestartCalculator: false,
+				operation: op,
+			};
+		});
 	};
 
 	const onEqual = () => {
