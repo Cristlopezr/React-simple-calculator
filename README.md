@@ -1,5 +1,3 @@
-### Just a simple calculator
-
-#### Built in React using JS
+### Just a simple calculator built in React using JS
 
 https://cristlopezr.github.io/React-simple-calculator/
