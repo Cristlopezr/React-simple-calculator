@@ -8,7 +8,7 @@ const initialState = {
 	lastNumber: 0,
 	previousNumber: 0,
 	canRestartResultText: false,
-	/*canRestartCalculator: false, */
+	canRestartCalculator: false,
 };
 
 export const useCalculator = () => {
@@ -21,10 +21,13 @@ export const useCalculator = () => {
 		lastNumber,
 		previousNumber,
 		canRestartResultText,
-		/*canRestartCalculator */
+		canRestartCalculator,
 	} = calculator;
 
 	const onConcatNumber = number => {
+		if (canRestartCalculator)
+			return setCalculator(() => ({ ...initialState, currentText: number }));
+
 		if (canRestartResultText)
 			setCalculator(currentCalc => ({
 				...currentCalc,
@@ -42,10 +45,15 @@ export const useCalculator = () => {
 		}
 
 		currentText === initialState.currentText
-			? setCalculator(currentCalc => ({ ...currentCalc, currentText: number }))
+			? setCalculator(currentCalc => ({
+					...currentCalc,
+					currentText: number,
+					lastNumber: Number(currentCalc.currentText + number),
+			  }))
 			: setCalculator(currentCalc => ({
 					...currentCalc,
 					currentText: currentCalc.currentText + number,
+					lastNumber: Number(currentCalc.currentText + number),
 			  }));
 	};
 
@@ -66,29 +74,36 @@ export const useCalculator = () => {
 		}
 	};
 
+	const compute = operation => {
+		if (operation === operationTypes.add) {
+			setCalculator(currentCalc => ({
+				...currentCalc,
+				currentText: add(previousNumber, lastNumber),
+			}));
+		}
+
+		if (operation === operationTypes.subtract)
+			setCalculator(currentCalc => ({
+				...currentCalc,
+				currentText: subtract(previousNumber, lastNumber),
+			}));
+
+		if (operation === operationTypes.multiply)
+			setCalculator(currentCalc => ({
+				...currentCalc,
+				currentText: multiply(previousNumber, lastNumber),
+			}));
+
+		if (operation === operationTypes.divide)
+			setCalculator(currentCalc => ({
+				...currentCalc,
+				currentText: divide(previousNumber, lastNumber),
+			}));
+	};
+
 	const onCompute = op => {
 		if (canRestartResultText === false) {
-			if (operation === operationTypes.add) {
-				setCalculator(currentCalc => ({
-					...currentCalc,
-					currentText: add(previousNumber, Number(currentText)),
-				}));
-			}
-			if (operation === operationTypes.subtract)
-				setCalculator(currentCalc => ({
-					...currentCalc,
-					currentText: subtract(previousNumber, Number(currentText)),
-				}));
-			if (operation === operationTypes.multiply)
-				setCalculator(currentCalc => ({
-					...currentCalc,
-					currentText: multiply(previousNumber, Number(currentText)),
-				}));
-			if (operation === operationTypes.divide)
-				setCalculator(currentCalc => ({
-					...currentCalc,
-					currentText: divide(previousNumber, Number(currentText)),
-				}));
+			compute(operation);
 		}
 
 		setCalculator(currentCalc => ({
@@ -96,12 +111,21 @@ export const useCalculator = () => {
 			previousText: `${currentCalc.currentText} ${op}`,
 			previousNumber: Number(currentCalc.currentText),
 			canRestartResultText: true,
+			canRestartCalculator: false,
 			operation: op,
 		}));
 	};
 
 	const onEqual = () => {
-		//onCompute();
+		compute(operation);
+
+		setCalculator(currentCalc => ({
+			...currentCalc,
+			previousText: `${currentCalc.previousNumber} ${operation} ${lastNumber} =`,
+			previousNumber: Number(currentCalc.currentText),
+			canRestartCalculator: true,
+			canRestartResultText: true,
+		}));
 	};
 
 	return {
