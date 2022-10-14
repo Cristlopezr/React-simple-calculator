@@ -6,7 +6,7 @@ const initialState = {
 	previousText: '',
 	operation: '',
 	lastNumber: 0,
-	previousNumber: 0,
+	previousNumber: '',
 	canRestartResultText: false,
 	canRestartCalculator: false,
 };
@@ -25,8 +25,7 @@ export const useCalculator = () => {
 	} = calculator;
 
 	const onConcatNumber = number => {
-		if (canRestartCalculator)
-			return setCalculator(() => ({ ...initialState, currentText: number }));
+		if (canRestartCalculator) setCalculator(() => ({ ...initialState }));
 
 		if (canRestartResultText)
 			setCalculator(currentCalc => ({
@@ -131,13 +130,14 @@ export const useCalculator = () => {
 	const onEqual = () => {
 		compute(operation);
 
-		setCalculator(currentCalc => ({
-			...currentCalc,
-			previousText: `${currentCalc.previousNumber} ${operation} ${lastNumber} =`,
-			previousNumber: Number(currentCalc.currentText),
-			canRestartCalculator: true,
-			canRestartResultText: true,
-		}));
+		if (previousNumber !== '')
+			setCalculator(currentCalc => ({
+				...currentCalc,
+				previousText: `${currentCalc.previousNumber} ${operation} ${lastNumber} =`,
+				previousNumber: Number(currentCalc.currentText),
+				canRestartCalculator: true,
+				canRestartResultText: true,
+			}));
 	};
 
 	return {
