@@ -1,31 +1,11 @@
-export const add = (previousNumber, lastNumberPicked, calculatorAction) => ({
-	previousNumber: Number(previousNumber) + Number(lastNumberPicked),
-	result: (Number(previousNumber) + Number(lastNumberPicked)).toString(),
-	operation: `${Number(previousNumber) + Number(lastNumberPicked)} ${calculatorAction}`,
-	calculatorAction,
-	canRestartResultText: true,
-});
+export const add = (previousNumber, lastNumberPicked) =>
+	(Number(previousNumber) + Number(lastNumberPicked)).toString();
 
-export const subtract = (previousNumber, lastNumberPicked, calculatorAction) => ({
-	previousNumber: Number(previousNumber) - Number(lastNumberPicked),
-	result: (Number(previousNumber) - Number(lastNumberPicked)).toString(),
-	operation: `${Number(previousNumber) - Number(lastNumberPicked)} ${calculatorAction}`,
-	calculatorAction,
-	canRestartResultText: true,
-});
+export const subtract = (previousNumber, lastNumberPicked) =>
+	(Number(previousNumber) - Number(lastNumberPicked)).toString();
 
-export const multiply = (previousNumber, lastNumberPicked, calculatorAction) => ({
-	previousNumber: Number(previousNumber) * Number(lastNumberPicked),
-	result: (Number(previousNumber) * Number(lastNumberPicked)).toString(),
-	operation: `${Number(previousNumber) * Number(lastNumberPicked)} ${calculatorAction}`,
-	calculatorAction,
-	canRestartResultText: true,
-});
+export const multiply = (previousNumber, lastNumberPicked) =>
+	(Number(previousNumber) * Number(lastNumberPicked)).toString();
 
-export const divide = (previousNumber, lastNumberPicked, calculatorAction) => ({
-	previousNumber: Number(previousNumber) / Number(lastNumberPicked),
-	result: (Number(previousNumber) / Number(lastNumberPicked)).toString(),
-	operation: `${Number(previousNumber) / Number(lastNumberPicked)} ${calculatorAction}`,
-	calculatorAction,
-	canRestartResultText: true,
-});
+export const divide = (previousNumber, lastNumberPicked) =>
+	(Number(previousNumber) / Number(lastNumberPicked)).toString();
