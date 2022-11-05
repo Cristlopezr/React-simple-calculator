@@ -121,10 +121,10 @@ body {
 	opacity: 0.45;
 }
 
-@media (max-height: 46.875em) {
+@media (max-height: 39.375em) {
 	*,
 	*::after,
 	*::before {
-		font-size: 0.8rem;
+		font-size: 0.9rem;
 	}
 }
