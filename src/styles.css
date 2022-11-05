@@ -39,10 +39,10 @@ body {
 .calculator {
 	margin: auto;
 	background-color: var(--calculator-bg-color);
-	padding: 4.25rem 0.8125rem 3.3125rem;
+	padding: 3rem 0.8125rem 3.3125rem;
 	border-radius: 50px;
 	box-shadow: 4px 4px 4px var(--calculator-shadow-color);
-	width: 320px;
+	max-width: 20rem;
 }
 
 .calculator__screen {
@@ -55,6 +55,9 @@ body {
 
 .screen__result {
 	font-size: 2rem;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
 	min-height: 5.5rem;
 }
 
@@ -116,4 +119,12 @@ body {
 
 .disableButton {
 	opacity: 0.45;
+}
+
+@media (max-height: 46.875em) {
+	*,
+	*::after,
+	*::before {
+		font-size: 0.8rem;
+	}
 }
