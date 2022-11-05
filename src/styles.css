@@ -118,7 +118,8 @@ body {
 }
 
 .disableButton {
-	opacity: 0.45;
+	--action-btn-text-color: hsl(26, 14%, 55%);
+	opacity: 0.3;
 }
 
 @media (max-height: 39.375em) {
