@@ -148,7 +148,7 @@ body {
 	border: none;
 	border-radius: 50px;
 	height: 1.2em;
-	width: 3.5em;
+	width: 3em;
 	position: absolute;
 	left: -10rem;
 	top: 20%;
@@ -162,15 +162,15 @@ body {
 	background-color: var(--calculator-bg-color);
 	left: 0%;
 	border: none;
-	width: 3.5em;
-	height: 3.5em;
+	width: 3em;
+	height: 3em;
 	border-radius: 50%;
 	cursor: pointer;
 	transition: transform 0.5s;
 }
 
 .themeButtonTransition {
-	transform: translateX(80%);
+	transform: translateX(2rem);
 }
 
 @media (max-height: 47.125em) {
