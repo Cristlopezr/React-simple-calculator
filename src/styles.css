@@ -16,6 +16,7 @@
 	--operation-text-color: hsl(220, 2%, 60%);
 	--result-text-color: hsl(0, 0%, 99%);
 	--outline-equal-btn: white;
+	--theme-button-bg: hsl(0, 0%, 92%);
 }
 
 .light {
@@ -32,32 +33,11 @@
 	/* Calculator */
 	--calculator-shadow-color: hsl(0, 0%, 84%);
 	--calculator-bg-color: hsl(0, 0%, 92%);
+	--theme-button-bg: hsl(207, 29%, 20%);
 
 	/* Text operations */
 	--result-text-color: hsl(210, 23%, 20%);
 	--outline-equal-btn: hsl(207, 31%, 12%);
-}
-
-@media (prefers-color-scheme: light) {
-	:root {
-		/* Light Theme */
-
-		/* Buttons */
-		--action-btn-text-color: hsl(228, 3%, 62%);
-		--normal-btn-text-color: hsl(0, 0%, 65%);
-		--normal-btn-bg-color: hsl(330, 6%, 93%);
-		--normal-btn-bg-color-active: hsl(0, 0%, 84%);
-		--btn-shadow-top-color: hsl(0, 0%, 100%);
-		--btn-shadow-bottom-color: hsl(0, 0%, 80%);
-
-		/* Calculator */
-		--calculator-shadow-color: hsl(0, 0%, 92%);
-		--calculator-bg-color: hsl(0, 0%, 92%);
-
-		/* Text operations */
-		--result-text-color: hsl(210, 23%, 20%);
-		--outline-equal-btn: hsl(207, 31%, 12%);
-	}
 }
 
 *,
@@ -83,6 +63,7 @@ body {
 	border-radius: 50px;
 	box-shadow: 2px 0px 2px var(--calculator-shadow-color);
 	max-width: 20rem;
+	position: relative;
 }
 
 .calculator__screen {
@@ -160,6 +141,36 @@ body {
 .disableButton {
 	--action-btn-text-color: hsl(26, 14%, 55%);
 	opacity: 0.3;
+}
+
+.themeButton {
+	background-color: var(--theme-button-bg);
+	border: none;
+	border-radius: 50px;
+	height: 2.5em;
+	width: 5em;
+	position: absolute;
+	left: -10rem;
+	top: 20%;
+	font-size: 1.5rem;
+	display: flex;
+	align-items: center;
+}
+
+.themeButton button {
+	position: absolute;
+	background-color: var(--calculator-bg-color);
+	left: 0%;
+	border: none;
+	width: 5em;
+	height: 5em;
+	border-radius: 50%;
+	cursor: pointer;
+	transition: transform 0.5s;
+}
+
+.themeButtonTransition {
+	transform: translateX(80%);
 }
 
 @media (max-height: 39.375em) {
