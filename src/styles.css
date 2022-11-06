@@ -173,10 +173,24 @@ body {
 	transform: translateX(80%);
 }
 
-@media (max-height: 39.375em) {
+@media (max-height: 45.125em) {
 	*,
 	*::after,
 	*::before {
 		font-size: 0.9rem;
+	}
+}
+
+@media (max-width: 650px) {
+	.themeButton {
+		width: 2.5em;
+		height: 1.25em;
+		left: 2rem;
+		top: -3rem;
+	}
+
+	.themeButton button {
+		width: 2.5em;
+		height: 2.5em;
 	}
 }
