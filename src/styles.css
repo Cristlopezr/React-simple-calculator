@@ -147,8 +147,8 @@ body {
 	background-color: var(--theme-button-bg);
 	border: none;
 	border-radius: 50px;
-	height: 2.5em;
-	width: 5em;
+	height: 1.2em;
+	width: 3.5em;
 	position: absolute;
 	left: -10rem;
 	top: 20%;
@@ -162,8 +162,8 @@ body {
 	background-color: var(--calculator-bg-color);
 	left: 0%;
 	border: none;
-	width: 5em;
-	height: 5em;
+	width: 3.5em;
+	height: 3.5em;
 	border-radius: 50%;
 	cursor: pointer;
 	transition: transform 0.5s;
@@ -173,7 +173,7 @@ body {
 	transform: translateX(80%);
 }
 
-@media (max-height: 45.125em) {
+@media (max-height: 47.125em) {
 	*,
 	*::after,
 	*::before {
@@ -183,14 +183,7 @@ body {
 
 @media (max-width: 650px) {
 	.themeButton {
-		width: 2.5em;
-		height: 1.25em;
 		left: 2rem;
 		top: -3rem;
-	}
-
-	.themeButton button {
-		width: 2.5em;
-		height: 2.5em;
 	}
 }
