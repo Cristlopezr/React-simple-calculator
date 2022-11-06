@@ -1,23 +1,63 @@
 @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap');
 
 :root {
-	--operation-btn-text-color: hsl(330, 1%, 51%);
-
-	--body-bg-color: #21232a;
-	--normal-btn-text-color: hsl(330, 1%, 71%);
-	--equal-btn-bg: hsl(26, 84%, 55%);
-	--equal-btn-text-color: hsl(26, 100%, 83%);
-	--equal-btn-bg-active: hsl(26, 83%, 65%);
 	--action-btn-text-color: hsl(26, 84%, 55%);
+	--operation-btn-text-color: hsl(330, 1%, 51%);
+	--normal-btn-text-color: hsl(330, 1%, 71%);
 	--normal-btn-bg-color: hsl(207, 29%, 20%);
 	--normal-btn-bg-color-active: hsl(207, 29%, 30%);
 	--btn-shadow-top-color: hsl(209, 26%, 30%);
 	--btn-shadow-bottom-color: hsl(207, 31%, 12%);
+	--equal-btn-bg: hsl(26, 84%, 55%);
+	--equal-btn-text-color: hsl(26, 100%, 83%);
+	--equal-btn-bg-active: hsl(26, 83%, 65%);
 	--calculator-bg-color: hsl(207, 29%, 20%);
 	--calculator-shadow-color: hsl(207, 31%, 12%);
 	--operation-text-color: hsl(220, 2%, 60%);
 	--result-text-color: hsl(0, 0%, 99%);
 	--outline-equal-btn: white;
+}
+
+.light {
+	/* Light Theme */
+
+	/* Buttons */
+	--action-btn-text-color: hsl(228, 3%, 62%);
+	--normal-btn-text-color: hsl(0, 0%, 65%);
+	--normal-btn-bg-color: hsl(330, 6%, 93%);
+	--normal-btn-bg-color-active: hsl(0, 0%, 84%);
+	--btn-shadow-top-color: hsl(0, 0%, 100%);
+	--btn-shadow-bottom-color: hsl(0, 0%, 80%);
+
+	/* Calculator */
+	--calculator-shadow-color: hsl(0, 0%, 84%);
+	--calculator-bg-color: hsl(0, 0%, 92%);
+
+	/* Text operations */
+	--result-text-color: hsl(210, 23%, 20%);
+	--outline-equal-btn: hsl(207, 31%, 12%);
+}
+
+@media (prefers-color-scheme: light) {
+	:root {
+		/* Light Theme */
+
+		/* Buttons */
+		--action-btn-text-color: hsl(228, 3%, 62%);
+		--normal-btn-text-color: hsl(0, 0%, 65%);
+		--normal-btn-bg-color: hsl(330, 6%, 93%);
+		--normal-btn-bg-color-active: hsl(0, 0%, 84%);
+		--btn-shadow-top-color: hsl(0, 0%, 100%);
+		--btn-shadow-bottom-color: hsl(0, 0%, 80%);
+
+		/* Calculator */
+		--calculator-shadow-color: hsl(0, 0%, 92%);
+		--calculator-bg-color: hsl(0, 0%, 92%);
+
+		/* Text operations */
+		--result-text-color: hsl(210, 23%, 20%);
+		--outline-equal-btn: hsl(207, 31%, 12%);
+	}
 }
 
 *,
@@ -41,7 +81,7 @@ body {
 	background-color: var(--calculator-bg-color);
 	padding: 3rem 0.8125rem 3.3125rem;
 	border-radius: 50px;
-	box-shadow: 4px 4px 4px var(--calculator-shadow-color);
+	box-shadow: 2px 0px 2px var(--calculator-shadow-color);
 	max-width: 20rem;
 }
 
