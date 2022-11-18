@@ -9,7 +9,14 @@ const classNames = {
 
 const equal = '=';
 
-export const ButtonGrid = ({ onConcatNumber, onEqual, onCompute, onAction, disableButtons }) => {
+export const ButtonGrid = ({
+	onConcatNumber,
+	onEqual,
+	onCompute,
+	onAction,
+	disableButtons,
+	theme,
+}) => {
 	return (
 		<div className='calculator__buttons'>
 			{calculator.map(digit =>
@@ -20,6 +27,7 @@ export const ButtonGrid = ({ onConcatNumber, onEqual, onCompute, onAction, disab
 						classes={`${classNames.actionButton} ${classNames.digitButton}`}
 						handleClick={onCompute}
 						disableButton={disableButtons}
+						theme={theme}
 					/>
 				) : Object.values(actionTypes).includes(digit) ? (
 					<Button
@@ -28,6 +36,7 @@ export const ButtonGrid = ({ onConcatNumber, onEqual, onCompute, onAction, disab
 						classes={`${classNames.actionButton} ${classNames.digitButton}`}
 						handleClick={onAction}
 						disableButton={disableButtons}
+						theme={theme}
 					/>
 				) : digit === equal ? (
 					<Button
@@ -36,6 +45,7 @@ export const ButtonGrid = ({ onConcatNumber, onEqual, onCompute, onAction, disab
 						classes={`${classNames.equalButton} ${classNames.digitButton}`}
 						handleClick={onEqual}
 						disableButton={disableButtons}
+						theme={theme}
 					/>
 				) : (
 					<Button

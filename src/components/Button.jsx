@@ -1,9 +1,21 @@
-export const Button = ({ digit, classes, handleClick, disableButton }) => {
+export const Button = ({
+	digit,
+	classes,
+	handleClick,
+	disableButton,
+	theme,
+}) => {
 	return (
 		<>
 			<button
 				onClick={() => handleClick(digit)}
-				className={disableButton ? `${classes} disableButton` : `${classes}`}
+				className={
+					disableButton
+						? theme
+							? `${classes} disableButtonLight`
+							: `${classes} disableButtonDark`
+						: `${classes}`
+				}
 				disabled={disableButton}
 			>
 				{digit}

@@ -36,6 +36,7 @@ export const Calculator = () => {
 				onCompute={onCompute}
 				onAction={onAction}
 				disableButtons={disableButtons}
+				theme={theme}
 			/>
 		</div>
 	);

@@ -1,5 +1,12 @@
 import { useState } from 'react';
-import { operationTypes, actionTypes, add, subtract, multiply, divide } from '../helpers';
+import {
+	operationTypes,
+	actionTypes,
+	add,
+	subtract,
+	multiply,
+	divide,
+} from '../helpers';
 
 const initialState = {
 	currentText: '0',
@@ -48,7 +55,11 @@ export const useCalculator = () => {
 
 		setCalculator(currentCalc => {
 			if (currentCalc.currentText === initialState.currentText)
-				return { ...currentCalc, currentText: number, lastNumber: Number(number) };
+				return {
+					...currentCalc,
+					currentText: number,
+					lastNumber: Number(number),
+				};
 
 			return {
 				...currentCalc,

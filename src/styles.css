@@ -38,6 +38,11 @@
 	/* Text operations */
 	--result-text-color: hsl(210, 23%, 20%);
 	--outline-equal-btn: hsl(207, 31%, 12%);
+
+	/* Disable buttons */
+	--disable-btn-bg: hsl(0, 0%, 80%);
+	--disable-btn-text-color: hsl(0, 0%, 53%);
+	--disable-btn-active-color: hsl(0, 0%, 84%);
 }
 
 *,
@@ -108,6 +113,7 @@ body {
 	outline: transparent;
 	transition: outline-color 0.5s;
 }
+
 .digitButton:hover {
 	cursor: pointer;
 }
@@ -138,9 +144,25 @@ body {
 	outline: var(--outline-equal-btn) 2px solid;
 }
 
-.disableButton {
-	--action-btn-text-color: hsl(26, 14%, 55%);
+.disableButtonLight {
+	color: var(--disable-btn-text-color);
+	background-color: var(--disable-btn-bg);
+	opacity: 0.7;
+	--equal-btn-bg-active: var(--disable-btn-active-color);
+}
+
+.disableButtonLight:active {
+	background-color: var(--disable-btn-bg);
+}
+
+.disableButtonDark {
+	color: hsl(26, 14%, 65%);
 	opacity: 0.3;
+	background-color: hsl(207, 29%, 18%);
+}
+
+.disableButtonDark:active {
+	background-color: hsl(207, 29%, 18%);
 }
 
 .themeButton {
