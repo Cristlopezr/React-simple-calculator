@@ -5,15 +5,8 @@ import { getCurrentTheme } from './helpers';
 import { useCalculator } from './hooks/useCalculator';
 
 export const Calculator = () => {
-  const {
-    currentText,
-    previousText,
-    disableButtons,
-    onConcatNumber,
-    onEqual,
-    onCompute,
-    onAction,
-  } = useCalculator();
+  const { bigText, smallText, disableButtons, onConcatNumber, onEqual, onCompute, onAction } =
+    useCalculator();
 
   const [theme, setTheme] = useState(getCurrentTheme());
 
@@ -24,7 +17,7 @@ export const Calculator = () => {
   return (
     <div className={theme ? 'calculator light' : 'calculator'}>
       <ThemeButton changeTheme={changeTheme} theme={theme} />
-      <Screen currentText={currentText} previousText={previousText} />
+      <Screen bigText={bigText} smallText={smallText} />
       <ButtonGrid
         onConcatNumber={onConcatNumber}
         onEqual={onEqual}
