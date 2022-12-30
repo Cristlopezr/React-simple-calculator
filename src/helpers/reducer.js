@@ -88,7 +88,11 @@ export const reducer = (state, { type, payload }) => {
 				return {
 					...state,
 					bigText: compute(state.previousNumber, state.lastNumber, state.operation),
-					smallText: `${compute(state.previousNumber, state.lastNumber, state.operation)} ${payload}`,
+					smallText: `${compute(
+						state.previousNumber,
+						state.lastNumber,
+						state.operation
+					)} ${payload}`,
 					previousNumber: compute(state.previousNumber, state.lastNumber, state.operation),
 					canRestartBigText: true,
 					operation: payload,
@@ -118,7 +122,7 @@ export const reducer = (state, { type, payload }) => {
 			return {
 				...state,
 				bigText: compute(state.previousNumber, state.lastNumber, state.operation),
-				smallText: `${compute(state.previousNumber, state.lastNumber, state.operation)} ${state.operation}`,
+				smallText: `${state.previousNumber} ${state.operation} ${state.lastNumber}`,
 				previousNumber: compute(state.previousNumber, state.lastNumber, state.operation),
 				canRestartBigText: true,
 			};
