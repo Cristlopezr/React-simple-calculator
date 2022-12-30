@@ -29,13 +29,14 @@ export const reducer = (state, { type, payload }) => {
 					lastNumber: Number(payload),
 				};
 
-			if (state.canRestartBigText)
+			if (state.canRestartBigText) {
 				return {
 					...state,
 					bigText: payload,
 					canRestartBigText: false,
 					lastNumber: Number(payload),
 				};
+			}
 
 			if (payload === ',') {
 				if (state.bigText.includes('.')) return state;
@@ -65,13 +66,19 @@ export const reducer = (state, { type, payload }) => {
 			if (payload === actionTypes.restart) return initialState;
 
 			if (payload === actionTypes.deleteLeft) {
-				if (state.smallText)
+				if (state.canRestartBigText)
+					return {
+						...initialState,
+						bigText: state.bigText,
+						lastNumber: Number(state.bigText),
+						canRestartBigText: true,
+					};
+				if (state.bigText.length === 1)
 					return {
 						...state,
-						smallText: initialState.smallText,
-						lastNumber: Number(state.bigText),
+						bigText: initialState.bigText,
+						lastNumber: initialState.lastNumber,
 					};
-				if (state.bigText.length === 1) return initialState;
 				return {
 					...state,
 					bigText: state.bigText.slice(0, -1),
@@ -86,7 +93,6 @@ export const reducer = (state, { type, payload }) => {
 						disableButtons: true,
 						canRestartCalculator: true,
 					};
-
 				return {
 					...state,
 					bigText: compute(state.previousNumber, state.lastNumber, state.operation),
@@ -124,7 +130,7 @@ export const reducer = (state, { type, payload }) => {
 			return {
 				...state,
 				bigText: compute(state.previousNumber, state.lastNumber, state.operation),
-				smallText: `${state.previousNumber} ${state.operation} ${state.lastNumber}`,
+				smallText: `${state.previousNumber} ${state.operation} ${state.lastNumber} =`,
 				previousNumber: compute(state.previousNumber, state.lastNumber, state.operation),
 				canRestartBigText: true,
 			};
