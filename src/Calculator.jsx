@@ -11,6 +11,7 @@ export const Calculator = () => {
 	const [theme, setTheme] = useState(getCurrentTheme());
 
 	const changeTheme = () => {
+		localStorage.setItem('theme', JSON.stringify(!theme));
 		setTheme(!theme);
 	};
 
