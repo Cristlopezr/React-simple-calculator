@@ -1,120 +1,35 @@
-import { useReducer, useState } from 'react';
-import { operationTypes, actionTypes, add, subtract, multiply, divide, reducer } from '../helpers';
-import { ACTIONS } from '../helpers/reducer';
-
-const initialState = {
-  currentText: '0',
-  previousText: '',
-  operation: '',
-  lastNumber: 0,
-  previousNumber: '',
-  canRestartResultText: false,
-  canRestartCalculator: false,
-  disableButtons: false,
-};
+import { useReducer } from 'react';
+import { reducer } from '../helpers';
+import { ACTIONS, initialState } from '../helpers/reducer';
 
 export const useCalculator = () => {
-  /* const [calculator, setCalculator] = useState(initialState); */
+	const [state, dispatch] = useReducer(reducer, initialState);
 
-  const [state, dispatch] = useReducer(reducer, initialState);
+	const { bigText, smallText, disableButtons } = state;
 
-  const {
-    bigText,
-    smallText,
-    operation,
-    lastNumber,
-    previousNumber,
-    canRestartResultText,
-    canRestartCalculator,
-    disableButtons,
-  } = state;
+	const onConcatNumber = number => {
+		dispatch({ type: ACTIONS.CONCAT_NUMBER, payload: number });
+	};
 
-  const onConcatNumber = number => {
-    dispatch({ type: ACTIONS.CONCAT_NUMBER, payload: number });
-  };
+	const onAction = action => {
+		dispatch({ type: ACTIONS.ACTION, payload: action });
+	};
 
-  const onAction = action => {
-    dispatch({ type: ACTIONS.ACTION, payload: action });
-  };
+	const onCompute = op => {
+		dispatch({ type: ACTIONS.COMPUTE, payload: op });
+	};
 
-  const compute = operation => {
-    if (operation === operationTypes.add) {
-      setCalculator(currentCalc => ({
-        ...currentCalc,
-        currentText: add(previousNumber, lastNumber),
-      }));
-    }
+	const onEqual = () => {
+		dispatch({ type: ACTIONS.EQUAL });
+	};
 
-    if (operation === operationTypes.subtract)
-      setCalculator(currentCalc => ({
-        ...currentCalc,
-        currentText: subtract(previousNumber, lastNumber),
-      }));
-
-    if (operation === operationTypes.multiply)
-      setCalculator(currentCalc => ({
-        ...currentCalc,
-        currentText: multiply(previousNumber, lastNumber),
-      }));
-
-    if (operation === operationTypes.divide) {
-      if (lastNumber === 0)
-        return setCalculator(currentCalc => ({
-          ...currentCalc,
-          disableButtons: true,
-          currentText: 'No se puede dividir entre cero',
-        }));
-      setCalculator(currentCalc => ({
-        ...currentCalc,
-        currentText: divide(previousNumber, lastNumber),
-      }));
-    }
-  };
-
-  const onCompute = op => {
-    if (canRestartResultText === false) {
-      compute(operation);
-    }
-
-    setCalculator(currentCalc => {
-      if (currentCalc.disableButtons)
-        return {
-          ...currentCalc,
-          previousText: `${currentCalc.previousNumber} ${operation} ${lastNumber} =`,
-          canRestartCalculator: true,
-        };
-
-      return {
-        ...currentCalc,
-        previousText: `${currentCalc.currentText} ${op}`,
-        previousNumber: Number(currentCalc.currentText),
-        canRestartResultText: true,
-        canRestartCalculator: false,
-        operation: op,
-      };
-    });
-  };
-
-  const onEqual = () => {
-    compute(operation);
-
-    if (previousNumber !== '')
-      setCalculator(currentCalc => ({
-        ...currentCalc,
-        previousText: `${currentCalc.previousNumber} ${operation} ${lastNumber} =`,
-        previousNumber: Number(currentCalc.currentText),
-        canRestartCalculator: true,
-        canRestartResultText: true,
-      }));
-  };
-
-  return {
-    bigText,
-    smallText,
-    /* disableButtons,  */
-    onConcatNumber,
-    /* onEqual,
-    onCompute,*/
-    onAction,
-  };
+	return {
+		bigText,
+		smallText,
+		disableButtons,
+		onConcatNumber,
+		onEqual,
+		onCompute,
+		onAction,
+	};
 };

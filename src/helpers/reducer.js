@@ -1,75 +1,128 @@
-import { actionTypes } from './calculatorButtonTypes';
+import { actionTypes, operationTypes } from './calculatorButtonTypes';
+import { compute } from './compute';
 
 export const ACTIONS = {
-  CONCAT_NUMBER: 'concat_number',
-  ACTION: 'action',
-  COMPUTE: 'compute',
+	CONCAT_NUMBER: 'concat_number',
+	ACTION: 'action',
+	COMPUTE: 'compute',
+	EQUAL: 'equal',
 };
 
-const initialState = {
-  bigText: '0',
-  smallText: '',
-  operation: '',
-  lastNumber: 0,
-  previousNumber: '',
-  canRestartResultText: false,
-  canRestartCalculator: false,
-  disableButtons: false,
+export const initialState = {
+	bigText: '0',
+	smallText: '',
+	operation: '',
+	lastNumber: 0,
+	previousNumber: '',
+	canRestartBigText: false,
+	canRestartCalculator: false,
+	disableButtons: false,
 };
 
 export const reducer = (state, { type, payload }) => {
-  switch (type) {
-    case ACTIONS.CONCAT_NUMBER:
-      if (state.canRestartCalculator) return initialState;
+	switch (type) {
+		case ACTIONS.CONCAT_NUMBER:
+			if (state.canRestartCalculator)
+				return {
+					...initialState,
+					bigText: payload,
+					lastNumber: Number(payload),
+				};
 
-      if (state.canRestartResultText)
-        return {
-          ...state,
-          bigText: '0',
-          canRestartResultText: false,
-          lastNumber: 0,
-        };
+			if (state.canRestartBigText)
+				return {
+					...state,
+					bigText: payload,
+					canRestartBigText: false,
+					lastNumber: Number(payload),
+				};
 
-      if (payload === ',') {
-        if (state.bigText.includes('.')) return state;
+			if (payload === ',') {
+				if (state.bigText.includes('.')) return state;
 
-        return {
-          ...state,
-          bigText: state.bigText + '.',
-        };
-      }
+				return {
+					...state,
+					bigText: state.bigText + '.',
+				};
+			}
 
-      if (state.bigText === initialState.bigText)
-        return {
-          ...state,
-          bigText: payload,
-          lastNumber: Number(payload),
-        };
+			if (state.bigText === initialState.bigText)
+				return {
+					...state,
+					bigText: payload,
+					lastNumber: Number(payload),
+				};
 
-      return {
-        ...state,
-        bigText: state.bigText + payload,
-        lastNumber: Number(state.bigText + payload),
-      };
+			return {
+				...state,
+				bigText: state.bigText + payload,
+				lastNumber: Number(state.bigText + payload),
+			};
 
-    case ACTIONS.ACTION:
-      if (payload === actionTypes.percentage) return state;
-      if (payload === actionTypes.restart) return initialState;
-      if (payload === actionTypes.deleteLeft) {
-        if (state.bigText.length === 1)
-          return {
-            ...state,
-            bigText: initialState.bigText,
-          };
-        return {
-          ...state,
-          bigText: state.bigText.slice(0, -1),
-        };
-      }
+		case ACTIONS.ACTION:
+			if (payload === actionTypes.percentage) return state;
 
-    case ACTIONS.COMPUTE:
+			if (payload === actionTypes.restart) return initialState;
 
-    default:
-      return state;
-  }
+			if (payload === actionTypes.deleteLeft) {
+				if (state.bigText.length === 1)
+					return {
+						...state,
+						bigText: initialState.bigText,
+					};
+				return {
+					...state,
+					bigText: state.bigText.slice(0, -1),
+				};
+			}
+
+		case ACTIONS.COMPUTE:
+			if (!state.canRestartBigText && state.operation) {
+				if (state.lastNumber === 0 && state.operation === operationTypes.divide)
+					return {
+						bigText: 'No se puede dividir entre cero',
+						disableButtons: true,
+						canRestartCalculator: true,
+					};
+
+				return {
+					...state,
+					bigText: compute(state.previousNumber, state.lastNumber, state.operation),
+					smallText: `${compute(state.previousNumber, state.lastNumber, state.operation)} ${payload}`,
+					previousNumber: compute(state.previousNumber, state.lastNumber, state.operation),
+					canRestartBigText: true,
+					operation: payload,
+				};
+			}
+
+			return {
+				...state,
+				smallText: `${state.bigText} ${payload}`,
+				previousNumber: Number(state.bigText),
+				canRestartBigText: true,
+				canRestartCalculator: false,
+				operation: payload,
+			};
+
+		case ACTIONS.EQUAL:
+			if (state.lastNumber === 0 && state.operation === operationTypes.divide) {
+				return {
+					bigText: 'No se puede dividir entre cero',
+					disableButtons: true,
+					canRestartCalculator: true,
+				};
+			}
+
+			if (state.previousNumber === initialState.previousNumber) return state;
+
+			return {
+				...state,
+				bigText: compute(state.previousNumber, state.lastNumber, state.operation),
+				smallText: `${compute(state.previousNumber, state.lastNumber, state.operation)} ${state.operation}`,
+				previousNumber: compute(state.previousNumber, state.lastNumber, state.operation),
+				canRestartBigText: true,
+			};
+		default:
+			return state;
+	}
 };
