@@ -65,11 +65,13 @@ export const reducer = (state, { type, payload }) => {
 			if (payload === actionTypes.restart) return initialState;
 
 			if (payload === actionTypes.deleteLeft) {
-				if (state.bigText.length === 1)
+				if (state.smallText)
 					return {
 						...state,
-						bigText: initialState.bigText,
+						smallText: initialState.smallText,
+						lastNumber: Number(state.bigText),
 					};
+				if (state.bigText.length === 1) return initialState;
 				return {
 					...state,
 					bigText: state.bigText.slice(0, -1),
